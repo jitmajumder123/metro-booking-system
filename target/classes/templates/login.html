@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css(v='final3')}">
+</head>
+<body class="auth-page">
+<nav class="auth-nav">
+    <a class="brand" th:href="@{/}">
+        <span>Metro Booking</span>
+    </a>
+    <div class="nav-links">
+        <span class="@{/}">Home</span>
+        <a th:href="@{/routes}">Routes</a>
+        <a th:href="@{/register}">Register</a>
+    </div>
+</nav>
+
+<main class="auth-wrap">
+    <section class="panel auth">
+        <p class="eyebrow">Secure access</p>
+        <h1>Login</h1>
+        <p class="error" th:if="${error}" th:text="${error}"></p>
+        <form th:action="@{/login}" method="post">
+            <label>Email
+                <input name="email" type="email" placeholder="admin@metro.com" required>
+            </label>
+            <label>Password
+                <input name="password" type="password" placeholder="Enter password" required>
+            </label>
+            <button class="btn full" type="submit">Login</button>
+        </form>
+        <p class="muted">New user? <a th:href="@{/register}">Create account</a></p>
+    </section>
+</main>
+</body>
+</html>

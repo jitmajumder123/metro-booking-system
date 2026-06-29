@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routes</title>
+    <link rel="stylesheet" th:href="@{/css/style.css(v='final3')}">
+</head>
+<body>
+<nav class="nav">
+    <a class="brand" th:href="@{/}">
+        <span>Metro Booking</span>
+    </a>
+    <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a class="active" th:href="@{/routes}">Routes</a>
+        <a th:if="${user != null}" th:href="@{/dashboard}">Dashboard</a>
+        <a th:if="${user != null and user.role == 'ADMIN'}" th:href="@{/admin}">Admin</a>
+    </div>
+    <div class="nav-actions">
+        <span class="nav-user" th:if="${user != null}" th:text="${user.email}">user@email.com</span>
+        <a class="btn small ghost" th:if="${user == null}" th:href="@{/login}">Login</a>
+        <a class="btn small danger" th:if="${user != null}" th:href="@{/logout}">Logout</a>
+    </div>
+</nav>
+
+<main class="container">
+    <section class="panel page-heading">
+        <div>
+            <p class="eyebrow">Plan your journey</p>
+            <h1>Search Metro Route</h1>
+        </div>
+        <form class="search-form" th:action="@{/routes/search}" method="post">
+            <label>Source
+                <select name="sourceId" required>
+                    <option th:each="station : ${stations}" th:value="${station.id}" th:text="${station.name}"></option>
+                </select>
+            </label>
+            <label>Destination
+                <select name="destinationId" required>
+                    <option th:each="station : ${stations}" th:value="${station.id}" th:text="${station.name}"></option>
+                </select>
+            </label>
+            <button class="btn" type="submit">Search</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <div class="section-title">
+            <h2>Routes</h2>
+            <span class="status-pill" th:text="${#lists.size(routes)} + ' found'">0 found</span>
+        </div>
+        <p class="muted" th:if="${#lists.isEmpty(routes)}">No route found for this search.</p>
+        <div class="list" th:if="${!#lists.isEmpty(routes)}">
+            <div class="route-card" th:each="route : ${routes}">
+                <div>
+                    <strong th:text="${route.source.name} + ' to ' + ${route.destination.name}">Central to Airport</strong>
+                    <p class="muted" th:text="${route.distanceKm} + ' km | ' + ${route.travelMinutes} + ' min'">24 km | 42 min</p>
+                </div>
+                <div class="fare-box">
+                    <strong th:text="'Rs. ' + ${route.fare}">Rs. 70</strong>
+                    <form th:action="@{/tickets/book}" method="post">
+                        <input type="hidden" name="routeId" th:value="${route.id}">
+                        <button class="btn small" type="submit">Book</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

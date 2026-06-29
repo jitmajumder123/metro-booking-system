@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/style.css(v='final3')}">
+</head>
+<body class="auth-page">
+<nav class="auth-nav">
+    <a class="brand" th:href="@{/}">
+        <span>Metro Booking</span>
+    </a>
+    <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/routes}">Routes</a>
+        <a th:href="@{/login}">Login</a>
+    </div>
+</nav>
+
+<main class="auth-wrap">
+    <section class="panel auth">
+        <p class="eyebrow">Join metro</p>
+        <h1>Create Account</h1>
+        <form th:action="@{/register}" method="post">
+            <label>Name
+                <input name="name" placeholder="Your name" required>
+            </label>
+            <label>Email
+                <input name="email" type="email" placeholder="you@example.com" required>
+            </label>
+            <label>Password
+                <input name="password" type="password" placeholder="Create password" required>
+            </label>
+            <button class="btn full" type="submit">Register</button>
+        </form>
+        <p class="muted">Already registered? <a th:href="@{/login}">Login</a></p>
+    </section>
+</main>
+</body>
+</html>

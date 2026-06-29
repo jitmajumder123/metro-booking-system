@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Metro Booking System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css(v='final3')}">
+</head>
+<body>
+<nav class="nav">
+    <a class="brand" th:href="@{/}">
+        <span>Metro Booking</span>
+    </a>
+    <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/routes}">Routes</a>
+        <a class="active" th:href="@{/dashboard}">Dashboard</a>
+        <a th:if="${user.role == 'ADMIN'}" th:href="@{/admin}">Admin</a>
+    </div>
+    <div class="nav-actions">
+        <span class="nav-user" th:text="${user.email}">user@email.com</span>
+        <a class="btn small danger" th:href="@{/logout}">Logout</a>
+    </div>
+</nav>
+
+<main class="container">
+    <p class="success" th:if="${success}" th:text="${success}"></p>
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <section class="panel dashboard-hero">
+        <div>
+            <p class="eyebrow">Welcome</p>
+            <h1 th:text="${user.name}">User</h1>
+            <p class="muted" th:text="${user.email}">user@email.com</p>
+        </div>
+        <div class="balance">
+            <span>Smart Card Balance</span>
+            <strong th:text="'Rs. ' + ${card.balance}">Rs. 0</strong>
+            <small th:text="${card.cardNumber}">MC000</small>
+        </div>
+    </section>
+
+    <section class="dashboard-grid">
+        <form id="recharge-card" class="panel action-panel" th:action="@{/smartcard/recharge}" method="post">
+            <h2>Recharge Smart Card</h2>
+            <label>Amount
+                <input name="amount" type="number" min="1" step="1" placeholder="Enter amount" required>
+            </label>
+            <button class="btn full" type="submit">Recharge</button>
+        </form>
+
+        <section class="panel action-panel">
+            <h2>Quick Actions</h2>
+            <div class="stack-actions">
+                <a class="btn full" th:href="@{/routes}">Search Route &amp; Book Ticket</a>
+                <a class="btn secondary full" th:href="@{/dashboard#ticket-history}">View Ticket History</a>
+                <a class="btn secondary full" th:if="${user.role == 'ADMIN'}" th:href="@{/admin}">Open Admin Panel</a>
+            </div>
+        </section>
+    </section>
+
+    <section id="ticket-history" class="panel">
+        <div class="section-title">
+            <h2>Ticket History</h2>
+            <span class="status-pill" th:text="${#lists.size(tickets)} + ' tickets'">0 tickets</span>
+        </div>
+        <p class="muted" th:if="${#lists.isEmpty(tickets)}">No tickets booked yet.</p>
+        <div class="list" th:if="${!#lists.isEmpty(tickets)}">
+            <div class="row" th:each="ticket : ${tickets}">
+                <span class="ticket-info">
+                    <strong th:text="${ticket.route.source.name} + ' to ' + ${ticket.route.destination.name}">Central to Airport</strong>
+                    <small class="muted" th:text="${#temporals.format(ticket.bookedAt, 'dd MMM yyyy, hh:mm a')}">17 Jun 2026, 10:30 AM</small>
+                </span>
+                <small th:text="'Rs. ' + ${ticket.fare}">Rs. 70</small>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css(v='final3')}">
+</head>
+<body>
+<nav class="nav">
+    <a class="brand" th:href="@{/}">
+        <span>Metro Admin</span>
+    </a>
+    <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/routes}">Routes</a>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a class="active" th:href="@{/admin}">Admin</a>
+    </div>
+    <div class="nav-actions">
+        <span class="nav-user" th:if="${user != null}" th:text="${user.email}">admin@metro.com</span>
+        <a class="btn small danger" th:href="@{/logout}">Logout</a>
+    </div>
+</nav>
+
+<main class="container">
+    <p class="success" th:if="${success}" th:text="${success}"></p>
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <section class="panel page-heading">
+        <div>
+            <p class="eyebrow">Management</p>
+            <h1>Admin Control Panel</h1>
+            <p class="muted">Add, update, and delete metro stations and routes.</p>
+        </div>
+    </section>
+
+    <section class="dashboard-grid">
+        <form class="panel action-panel" th:action="@{/admin/stations}" method="post">
+            <h2>Add Station</h2>
+            <label>Station Name
+                <input name="name" placeholder="Station name" required>
+            </label>
+            <label>Line Name
+                <input name="lineName" placeholder="Line name" required>
+            </label>
+            <button class="btn full" type="submit">Add Station</button>
+        </form>
+
+        <form class="panel action-panel" th:action="@{/admin/routes}" method="post">
+            <h2>Add Route</h2>
+            <label>Source
+                <select name="sourceId" required>
+                    <option th:each="station : ${stations}" th:value="${station.id}" th:text="${station.name}"></option>
+                </select>
+            </label>
+            <label>Destination
+                <select name="destinationId" required>
+                    <option th:each="station : ${stations}" th:value="${station.id}" th:text="${station.name}"></option>
+                </select>
+            </label>
+            <div class="form-row">
+                <label>Distance KM
+                    <input name="distanceKm" type="number" min="1" required>
+                </label>
+                <label>Minutes
+                    <input name="travelMinutes" type="number" min="1" required>
+                </label>
+                <label>Fare
+                    <input name="fare" type="number" min="1" step="1" required>
+                </label>
+            </div>
+            <button class="btn full" type="submit">Add Route</button>
+        </form>
+    </section>
+
+    <section class="panel admin-section">
+        <div class="section-title">
+            <h2>Stations CRUD</h2>
+            <span class="status-pill" th:text="${#lists.size(stations)} + ' stations'">0 stations</span>
+        </div>
+        <div class="admin-list">
+            <div class="admin-row" th:each="station : ${stations}">
+                <form class="admin-edit-form" th:action="@{/admin/stations/{id}/update(id=${station.id})}" method="post">
+                    <input name="name" th:value="${station.name}" required>
+                    <input name="lineName" th:value="${station.lineName}" required>
+                    <button class="btn small" type="submit">Update</button>
+                </form>
+                <form th:action="@{/admin/stations/{id}/delete(id=${station.id})}" method="post">
+                    <button class="btn small danger" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel admin-section">
+        <div class="section-title">
+            <h2>Routes CRUD</h2>
+            <span class="status-pill" th:text="${#lists.size(routes)} + ' routes'">0 routes</span>
+        </div>
+        <div class="admin-list">
+            <div class="admin-row route-admin-row" th:each="route : ${routes}">
+                <form class="admin-edit-form route-edit-form" th:action="@{/admin/routes/{id}/update(id=${route.id})}" method="post">
+                    <select name="sourceId" required>
+                        <option th:each="station : ${stations}" th:value="${station.id}" th:text="${station.name}" th:selected="${station.id == route.source.id}"></option>
+                    </select>
+                    <select name="destinationId" required>
+                        <option th:each="station : ${stations}" th:value="${station.id}" th:text="${station.name}" th:selected="${station.id == route.destination.id}"></option>
+                    </select>
+                    <input name="distanceKm" type="number" min="1" th:value="${route.distanceKm}" required>
+                    <input name="travelMinutes" type="number" min="1" th:value="${route.travelMinutes}" required>
+                    <input name="fare" type="number" min="1" step="1" th:value="${route.fare}" required>
+                    <button class="btn small" type="submit">Update</button>
+                </form>
+                <form th:action="@{/admin/routes/{id}/delete(id=${route.id})}" method="post">
+                    <button class="btn small danger" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
