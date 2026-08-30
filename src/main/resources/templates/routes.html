@@ -17,11 +17,7 @@
         <a th:if="${user != null}" th:href="@{/dashboard}">Dashboard</a>
         <a th:if="${user != null and user.role == 'ADMIN'}" th:href="@{/admin}">Admin</a>
     </div>
-    <div class="nav-actions">
-        <span class="nav-user" th:if="${user != null}" th:text="${user.email}">user@email.com</span>
-        <a class="btn small ghost" th:if="${user == null}" th:href="@{/login}">Login</a>
-        <a class="btn small danger" th:if="${user != null}" th:href="@{/logout}">Logout</a>
-    </div>
+   
 </nav>
 
 <main class="container">
@@ -55,10 +51,7 @@
                 </div>
                 <div class="fare-box">
                     <strong th:text="'Rs. ' + ${route.fare}">Rs. 70</strong>
-                    <form th:action="@{/tickets/book}" method="post">
-                        <input type="hidden" name="routeId" th:value="${route.id}">
-                        <button class="btn small" type="submit">Book</button>
-                    </form>
+                    
                 </div>
             </div>
         </div>
