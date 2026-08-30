@@ -34,18 +34,7 @@ public class AdminController {
 
     }
 
-    @PostMapping("/stations")
-    public String addStation(@RequestParam String name, @RequestParam String lineName, HttpSession session) {
-        String redirect = requireAdmin(session);
-        if (redirect != null) {
-            return redirect;
-        }
-        Station station = new Station();
-        station.setName(name);
-        station.setLineName(lineName);
-        stationRepository.save(station);
-        return "redirect:/admin";
-    }
+
 
     @PostMapping("/stations/{id}/update")
     public String updateStation(@PathVariable Long id, @RequestParam String name, @RequestParam String lineName, HttpSession session, RedirectAttributes redirectAttributes) {
@@ -71,10 +60,7 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("error", "Delete linked routes before deleting this station");
             return "redirect:/admin";
         }
-        stationRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("success", "Station deleted successfully");
-        return "redirect:/admin";
-    }
+       
 
     @PostMapping("/routes")
     public String addRoute(@RequestParam Long sourceId, @RequestParam Long destinationId, @RequestParam int distanceKm, @RequestParam int travelMinutes, @RequestParam BigDecimal fare, HttpSession session) {
@@ -98,12 +84,7 @@ public class AdminController {
     public String updateRoute(
             @PathVariable Long id,
             @RequestParam Long sourceId,
-            @RequestParam Long destinationId,
-            @RequestParam int distanceKm,
-            @RequestParam int travelMinutes,
-            @RequestParam BigDecimal fare,
-            HttpSession session,
-            RedirectAttributes redirectAttributes
+          
     ) {
         String redirect = requireAdmin(session);
         if (redirect != null) {
@@ -140,9 +121,6 @@ public class AdminController {
         if (user == null) {
             return "redirect:/login";
         }
-        if (!"ADMIN".equals(user.getRole())) {
-            return "redirect:/dashboard";
-        }
-        return null;
+       
     }
 }
