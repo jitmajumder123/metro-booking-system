@@ -31,10 +31,7 @@ public class AdminController {
         if (redirect != null) {
             return redirect;
         }
-        model.addAttribute("user", session.getAttribute("user"));
-        model.addAttribute("stations", stationRepository.findAll());
-        model.addAttribute("routes", routeRepository.findAll());
-        return "admin";
+
     }
 
     @PostMapping("/stations")

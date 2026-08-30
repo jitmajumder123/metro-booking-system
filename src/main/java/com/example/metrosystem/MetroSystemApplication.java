@@ -10,14 +10,5 @@ public class MetroSystemApplication {
     }
 }
 
-//Admin
-//Email: admin@metro.com
-//Password: admin123
 
-//User
-//Username: jit@123
-//Password: jit123
-
-//Username: rana@123
-//Password: rana123
 

@@ -18,14 +18,12 @@
         <a th:if="${user.role == 'ADMIN'}" th:href="@{/admin}">Admin</a>
     </div>
     <div class="nav-actions">
-        <span class="nav-user" th:text="${user.email}">user@email.com</span>
-        <a class="btn small danger" th:href="@{/logout}">Logout</a>
+
     </div>
 </nav>
 
 <main class="container">
-    <p class="success" th:if="${success}" th:text="${success}"></p>
-    <p class="error" th:if="${error}" th:text="${error}"></p>
+
 
     <section class="panel dashboard-hero">
         <div>

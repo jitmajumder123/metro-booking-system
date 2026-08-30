@@ -31,11 +31,7 @@
             <h1>Search Metro Route</h1>
         </div>
         <form class="search-form" th:action="@{/routes/search}" method="post">
-            <label>Source
-                <select name="sourceId" required>
-                    <option th:each="station : ${stations}" th:value="${station.id}" th:text="${station.name}"></option>
-                </select>
-            </label>
+
             <label>Destination
                 <select name="destinationId" required>
                     <option th:each="station : ${stations}" th:value="${station.id}" th:text="${station.name}"></option>
