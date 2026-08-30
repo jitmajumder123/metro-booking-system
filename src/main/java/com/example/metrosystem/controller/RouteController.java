@@ -16,11 +16,5 @@ public class RouteController {
     }
 
 
-    @PostMapping("/search")
-    public String search(@RequestParam Long sourceId, @RequestParam Long destinationId, Model model, HttpSession session) {
-        model.addAttribute("user", session.getAttribute("user"));
-        model.addAttribute("stations", metroService.stations());
-        model.addAttribute("routes", metroService.searchRoutes(sourceId, destinationId));
-        return "routes";
-    }
+    
 }
