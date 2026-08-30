@@ -1,6 +1,6 @@
 # Metro System
 
-Spring Boot + Thymeleaf metro management project.
+Spring Boot & Thymeleaf metro management project.
 
 ## Features
 
