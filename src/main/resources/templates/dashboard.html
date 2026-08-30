@@ -25,19 +25,7 @@
 <main class="container">
 
 
-    <section class="panel dashboard-hero">
-        <div>
-            <p class="eyebrow">Welcome</p>
-            <h1 th:text="${user.name}">User</h1>
-            <p class="muted" th:text="${user.email}">user@email.com</p>
-        </div>
-        <div class="balance">
-            <span>Smart Card Balance</span>
-            <strong th:text="'Rs. ' + ${card.balance}">Rs. 0</strong>
-            <small th:text="${card.cardNumber}">MC000</small>
-        </div>
-    </section>
-
+   
     <section class="dashboard-grid">
         <form id="recharge-card" class="panel action-panel" th:action="@{/smartcard/recharge}" method="post">
             <h2>Recharge Smart Card</h2>
@@ -57,18 +45,7 @@
         </section>
     </section>
 
-    <section id="ticket-history" class="panel">
-        <div class="section-title">
-            <h2>Ticket History</h2>
-            <span class="status-pill" th:text="${#lists.size(tickets)} + ' tickets'">0 tickets</span>
-        </div>
-        <p class="muted" th:if="${#lists.isEmpty(tickets)}">No tickets booked yet.</p>
-        <div class="list" th:if="${!#lists.isEmpty(tickets)}">
-            <div class="row" th:each="ticket : ${tickets}">
-                <span class="ticket-info">
-                    <strong th:text="${ticket.route.source.name} + ' to ' + ${ticket.route.destination.name}">Central to Airport</strong>
-                    <small class="muted" th:text="${#temporals.format(ticket.bookedAt, 'dd MMM yyyy, hh:mm a')}">17 Jun 2026, 10:30 AM</small>
-                </span>
+   
                 <small th:text="'Rs. ' + ${ticket.fare}">Rs. 70</small>
             </div>
         </div>
